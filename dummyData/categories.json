@@ -1,0 +1,30 @@
+[{
+  "id": 1,
+  "category": "Bathroom",
+  "imageUrl": "https://kaientai-app.s3.eu-west-2.amazonaws.com/categories/bathroom.jpg"
+},
+{
+  "id": 2,
+  "category": "Kitchen",
+  "imageUrl": "https://kaientai-app.s3.eu-west-2.amazonaws.com/categories/kitchen.jpg"
+},
+{
+  "id": 3,
+  "category": "Sets",
+  "imageUrl": "https://kaientai-app.s3.eu-west-2.amazonaws.com/categories/sets.jpg"
+},
+{
+  "id": 4,
+  "category": "Beauty",
+  "imageUrl": "https://kaientai-app.s3.eu-west-2.amazonaws.com/categories/beauty.jpg"
+},
+{
+  "id": 5,
+  "category": "Outdoors",
+  "imageUrl": "https://kaientai-app.s3.eu-west-2.amazonaws.com/categories/outdoors.jpg"
+},
+{
+  "id": 6,
+  "category": "Soap Bars",
+  "imageUrl": "https://kaientai-app.s3.eu-west-2.amazonaws.com/categories/soap_bars.jpg"
+}]

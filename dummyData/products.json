@@ -1,0 +1,32 @@
+[{
+  "id": 1,
+  "supplierID": 1,
+  "title": "One Piece",
+  "description": "Journey of a young men venturing to accompish his dream. Seeking the answer of freedom.\n%-%\nOne of the best stories in the history of stories.",
+  "imageUrl": "https://i.pinimg.com/originals/07/1d/78/071d78ac772c49496278936ae55f3779.jpg",
+  "imagesUrl": [
+    "https://myhero.com/images/guest/g263026/hero88519/first%20season%20king.gif",
+    "https://myhero.com/images/guest/g263026/hero88519/first%20season%20king.gif"
+  ],
+  "productRatingID": 1,
+  "price": "0.99",
+  "stock": 94,
+  "active": false,
+  "categories": null
+},
+{
+  "id": 79,
+  "supplierID": 1,
+  "title": "One Piece 2",
+  "description": "Journey of a young men venturing to accompish his dream. Seeking the answer of freedom.\n%-%\nOne of the best stories in the history of stories.",
+  "imageUrl": "https://w7.pngwing.com/pngs/909/655/png-transparent-one-piece-logo-monkey-d-luffy-one-piece-usopp-logo-pirate-hat-manga-jolly-roger-smiley-thumbnail.png",
+  "imagesUrl": [
+    "https://myhero.com/images/guest/g263026/hero88519/first%20season%20king.gif",
+    "https://myhero.com/images/guest/g263026/hero88519/first%20season%20king.gif"
+  ],
+  "productRatingID": 1,
+  "price": "0.99",
+  "stock": 94,
+  "active": false,
+  "categories": null
+}]
