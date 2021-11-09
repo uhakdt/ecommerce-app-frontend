@@ -26,7 +26,7 @@ const ProductCard = (props) => {
                     + '...' : title
                 }
             </Text>
-            <Text style={styles.price}>${price}</Text>
+            <Text style={styles.price}>£{price}</Text>
 
             { stock > 0 ? (
                 <View style={{ marginBottom: 60 }}>
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
         height: width / 1.7,
         padding: 10,
         borderRadius: 10,
+        marginTop: 55,
         marginBottom: 5,
         marginLeft: 10,
         alignItems: 'center',
