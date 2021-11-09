@@ -6,7 +6,7 @@ import ProductList from './ProductList';
 
 const data = require('../../dummyData/products.json');
 
-const ProductContainer = () => {
+const ProductContainer = (props) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -26,11 +26,12 @@ const ProductContainer = () => {
           data={products}
           renderItem={({item}) => 
             <ProductList 
+              navigation={props.navigation}
               key={item.id}
               item={item}
             />
           }
-          keyExtractor={item => item.title}
+          keyExtractor={item => item.id}
         />
       </View>
     </View>
