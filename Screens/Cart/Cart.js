@@ -73,11 +73,11 @@ const Cart = (props) => {
                         <Text style={styles.butonText}>+</Text>
                       </Pressable>
                     </View>
-                    <View style={styles.removeCartItemContainer}>
-                      <Pressable onPress={() => props.removeFromCart(cartItem)}>
+                    <Pressable onPress={() => props.removeFromCart(cartItem)}>
+                      <View style={styles.removeCartItemContainer}>
                         <Icon name="trash-o" color={'black'} size={20} />
-                      </Pressable>
-                    </View>
+                      </View>
+                    </Pressable>
                   </View>
                 </View>
 
@@ -262,9 +262,14 @@ const styles = StyleSheet.create({
 
   // Remove Cart Item
   removeCartItemContainer: {
+    backgroundColor: 'pink',
+    height: 30,
+    width: 50,
     position: 'absolute',
-    bottom: -30,
-    right: 10
+    bottom: -40,
+    right: 10,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
