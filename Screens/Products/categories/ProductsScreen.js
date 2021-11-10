@@ -52,6 +52,7 @@ export default function ProductsScreen() {
           keyExtractor={item => item.id}
           numColumns={3}
           horizontal={false}
+          showsVerticalScrollIndicator={false}
         />)}
     </SafeAreaView>
   );
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
   productContainer: {
     width: (width / 3 ),
     paddingVertical: 20,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     marginBottom: -18
   },
   imageContainer: {
