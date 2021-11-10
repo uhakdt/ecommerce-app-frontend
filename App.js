@@ -4,8 +4,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 
 // Redux
-// import { Provider } from "react-redux";
-// import store from "./Redux/store";
+import { Provider } from "react-redux";
+import store from "./Redux/store";
 
 // Context API
 // import Auth from "./Context/store/Auth";
@@ -18,10 +18,12 @@ import Header from "./Shared/Header";
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Header />
-      <Main />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Header />
+        <Main />
+      </NavigationContainer>
+    </Provider>
   );
 }
 
