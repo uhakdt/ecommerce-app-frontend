@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: 1,
     borderColor: 'white',
+    marginVertical: -11
   },
   item: {
     borderWidth: 2,

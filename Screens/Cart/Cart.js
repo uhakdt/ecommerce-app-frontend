@@ -262,7 +262,6 @@ const styles = StyleSheet.create({
 
   // Remove Cart Item
   removeCartItemContainer: {
-    backgroundColor: 'pink',
     height: 30,
     width: 50,
     position: 'absolute',
