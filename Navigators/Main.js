@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { Ionicons } from "react-native-vector-icons";
+import { FontAwesome } from "react-native-vector-icons";
 
 // Stacks
 import HomeNavigator from "./HomeNavigator";
+import CartNavigator from "./CartNavigator";
+
+import CartIcon from "../Shared/CartIcon";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,25 +29,32 @@ const Main = () => {
         name="HomeNavigator"
         component={HomeNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
-            <Icon name="home" color={color} size={30} />
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" color={color} size={30} />
           ),
+          headerShown: false,
+          tabBarActiveTintColor: "#172A55"
         }}
+        
       />
-      {/* <Tab.Screen
-        name="Cart"
+      <Tab.Screen
+        name="CartNavigator"
         component={CartNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
             <View>
-              <Icon name="shopping-cart" color={color} size={30} />
+              <Ionicons name="basket" color={color} size={30} />
               <CartIcon />
             </View>
           ),
+          headerShown: false,
+          tabBarActiveTintColor: "#172A55"
         }}
       />
       
-      {context.stateUser.user.isAdmin == true ? (
+      {/* {context.stateUser.user.isAdmin == true ? (
         <Tab.Screen
         name="Admin"
         component={AdminNavigator}
@@ -53,9 +64,9 @@ const Main = () => {
           ),
         }}
       />
-      ): null }
+      ): null } */}
       
-      <Tab.Screen
+      {/* <Tab.Screen
         name="User"
         component={UserNavigator}
         options={{

@@ -2,16 +2,22 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Pressable, SafeAreaView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImageCarousel from '../../Shared/ImageCarousel';
+import { connect } from 'react-redux';
+import * as actions from '../../Redux/Actions/cartActions';
 
 const SingleProduct = (props) => {
   const [item, setItem] = useState(props.route.params.item);
   const [availability, setAvailability] = useState(null);
 
+  const itemDescriptions = item.description.split("%-%");
 
   return (
     <View style={styles.root}>
       <View style={styles.addToBasketContainer}>
-        <Pressable style={styles.addToBasketButton}>
+        <Pressable 
+          onPress={() => { props.addItemToCart(props) }} 
+          style={styles.addToBasketButton}
+        >
           <Text style={styles.addToBasketButtonText}>Add to Basket</Text>
         </Pressable>
       </View>
@@ -20,7 +26,7 @@ const SingleProduct = (props) => {
         <ImageCarousel images={item.imagesUrl} price={item.price} title={item.title} />
 
         {/* Quantity Selector */}
-        <View style={styles.quantitySelectorContainer}>
+        {/* <View style={styles.quantitySelectorContainer}>
           <Pressable style={styles.minusPlusButton}>
             <Text style={styles.minusPlusButtonText}>-</Text>
           </Pressable>
@@ -30,18 +36,17 @@ const SingleProduct = (props) => {
           <Pressable style={styles.minusPlusButton}>
             <Text style={styles.minusPlusButtonText}>+</Text>
           </Pressable>
-        </View>
+        </View> */}
 
         {/* Details */}
         <View style={styles.detailsContainer}>
-          <Text>{item.description}</Text>
-          {/* {itemDescriptions.map(desc => (
+          {itemDescriptions.map(desc => (
             <View>
               <Text>
                 {desc}
               </Text>
             </View>
-          ))} */}
+          ))}
         </View>
       </ScrollView>
      
@@ -49,7 +54,12 @@ const SingleProduct = (props) => {
   );
 }
 
-export default SingleProduct;
+const mapDispatchToProps = (dispatch) => {
+  return {
+      addItemToCart: (product) => 
+          dispatch(actions.addToCart({quantity: 1, product}))
+  }
+}
 
 const styles = StyleSheet.create({
   root: {
@@ -107,3 +117,5 @@ const styles = StyleSheet.create({
     color: '#172A55',
   },
 })
+
+export default connect(null, mapDispatchToProps)(SingleProduct);

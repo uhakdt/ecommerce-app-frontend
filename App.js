@@ -20,7 +20,6 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Header />
         <Main />
       </NavigationContainer>
     </Provider>

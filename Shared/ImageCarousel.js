@@ -9,7 +9,6 @@ const ImageCarousel = ({ images, price, title }) => {
     if (viewableItems.length > 0) {
       setActiveIndex(viewableItems[0].index || 0);
     }
-    console.log(viewableItems);
   }, []);
   const viewabilityConfig = {
     viewAreaCoveragePercentThreshold: 50,
