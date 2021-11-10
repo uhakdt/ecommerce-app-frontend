@@ -1,5 +1,6 @@
 import {
     ADD_TO_CART,
+    TAKE_AWAY_FROM_CART,
     REMOVE_FROM_CART,
     CLEAR_CART
 } from '../constants';
@@ -7,6 +8,13 @@ import {
 export const addToCart = (payload) => {
     return {
         type: ADD_TO_CART,
+        payload
+    }
+}
+
+export const takeAwayFromCart = (payload) => {
+    return {
+        type: TAKE_AWAY_FROM_CART,
         payload
     }
 }
