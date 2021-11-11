@@ -7,6 +7,7 @@ import { FontAwesome } from "react-native-vector-icons";
 // Stacks
 import HomeNavigator from "./HomeNavigator";
 import CartNavigator from "./CartNavigator";
+import UserNavigator from "./UserNavigator";
 
 import CartIcon from "../Shared/CartIcon";
 
@@ -54,27 +55,20 @@ const Main = () => {
         }}
       />
       
-      {/* {context.stateUser.user.isAdmin == true ? (
-        <Tab.Screen
-        name="Admin"
-        component={AdminNavigator}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Icon name="cog" color={color} size={30} />
-          ),
-        }}
-      />
-      ): null } */}
-      
-      {/* <Tab.Screen
-        name="User"
+      <Tab.Screen
+        name="UserNavigator"
         component={UserNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
-            <Icon name="user" color={color} size={30} />
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <Ionicons name="person" color={color} size={30} />
+            </View>
           ),
+          headerShown: false,
+          tabBarActiveTintColor: "#172A55"
         }}
-      /> */}
+      />
     </Tab.Navigator>
   );
 };
