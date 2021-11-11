@@ -11,7 +11,7 @@ const AddAddress = (props) => {
   const [postcode, setPostcode] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-
+  const [deliveryInstructions, setDeliveryInstructions] = useState('');
 
   const checkout = () => {
     props.navigation.navigate("Checkout", {
@@ -22,7 +22,8 @@ const AddAddress = (props) => {
         city: city,
         postcode: postcode,
         phone: phone,
-        email: email
+        email: email,
+        deliveryInstructions: deliveryInstructions
       }
     })
   }
@@ -111,6 +112,17 @@ const AddAddress = (props) => {
             placeholder="Enter your email address..."
             value={email}
             onChangeText={setEmail}
+          />
+        </View>
+
+        {/* DELIVERY INSTRUCTIONS */}
+        <View style={styles.inputContainer}>
+          <Text style={styles.inputTitle}>Delivery Instructions</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your delivery instructions..."
+            value={deliveryInstructions}
+            onChangeText={setDeliveryInstructions}
           />
         </View>
 

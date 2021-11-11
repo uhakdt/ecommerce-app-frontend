@@ -5,9 +5,10 @@ import axios from "axios";
 import { GetDateAndTimeNow } from '../../../auxillary/DateAndTimeNow';
 import { connect } from 'react-redux';
 import * as actions from "../../../Redux/Actions/cartActions";
-
+import AuthGlobal from "../../../Context/store/AuthGlobal"
 
 const Checkout = (props) =>  {
+  const context = useContext(AuthGlobal)
   const [details, setDetails] = useState(props.route.params?.details);
   const [cartItems, setCartItems] = useState([]);
   const [email, setEmail] = useState(props.route.params?.details.email);
@@ -27,7 +28,6 @@ const Checkout = (props) =>  {
       }
       cartItemsTemp.push(cartItem);
     }
-    console.log(cartItemsTemp)
     setCartItems(cartItemsTemp);
     cartItemsTemp = []
   }, [props.route.params?.details]);
@@ -88,12 +88,11 @@ const Checkout = (props) =>  {
             "Access-Control-Origin": "*"
          }
           console.log("Payment successful ", paymentIntent);
-          console.log(cartItems)
           axios.post('https://kaientai-app-backend.herokuapp.com/api/v1/order', {
             dateAndTime: GetDateAndTimeNow(),
             statusID: 1,
             supplierID: 1,
-            userID: null,
+            userID: context.stateUser.user.userId,
             totalAmount: totalPrice,
             contactName: details.fullName,
             contactEmail: email,
@@ -101,11 +100,10 @@ const Checkout = (props) =>  {
             address1: details.address1,
             address2: details.address2,
             city: details.city,
-            county: null,
-            country: null,
             postcode: details.postcode,
-            extUserID: null,
             cartProducts: cartItems,
+            deliveryInstructions: details.deliveryInstructions,
+            status: "Fulfiling Order"
           })
           .then(function (response) {
             console.log(response);
