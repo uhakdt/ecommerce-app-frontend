@@ -16,7 +16,6 @@ export default function ProductsBathroomScreen({ route }) {
     const getData = () => {
       axios.get(`${baseURL}products/${categoryName}`)
       .then(function (res) {
-        console.log(res)
         setProducts(res.data.data.products);
       })
     }
