@@ -1,137 +1,180 @@
-import React, { useEffect, useState, useContext} from 'react'
-import { Text, View, Button } from 'react-native'
-import { Item, Picker, Toast } from 'native-base'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import FormContainer from '../../../Shared/Form/FormContainer'
-import Input from '../../../Shared/Form/Input'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import AuthGlobal from "../../../Context/store/AuthGlobal"
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, Button, Alert } from "react-native";
+import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
+import axios from "axios";
+import { GetDateAndTimeNow } from '../../../auxillary/DateAndTimeNow';
+import { connect } from 'react-redux';
+import * as actions from "../../../Redux/Actions/cartActions";
 
-import { connect } from 'react-redux'
 
-const countries = require("../../../assets/countries.json");
+const Checkout = (props) =>  {
+  const [details, setDetails] = useState(props.route.params?.details);
+  const [cartItems, setCartItems] = useState([]);
+  const [email, setEmail] = useState(props.route.params?.details.email);
+  const [totalPrice, setTotalPrice] = useState(null);
+  const [cardDetails, setCardDetails] = useState();
+  const { confirmPayment, loading } = useConfirmPayment();
 
-const Checkout = (props) => {
-    const context = useContext(AuthGlobal)
-
-    const [ orderItems, setOrderItems ] = useState();
-    const [ address, setAddress ] = useState();
-    const [ address2, setAddress2 ] = useState();
-    const [ city, setCity ] = useState();
-    const [ zip, setZip ] = useState();
-    const [ country, setCountry ] = useState();
-    const [ phone, setPhone ] = useState();
-    const [ user, setUser ] = useState();
-
-    useEffect(() => {
-        setOrderItems(props.cartItems)
-
-        if(context.stateUser.isAuthenticated) {
-            setUser(context.stateUser.user.sub)
-        } else {
-            props.navigation.navigate("Cart");
-            Toast.show({
-                topOffset: 60,
-                type: "error",
-                text1: "Please Login to Checkout",
-                text2: ""
-            });
-        }
-
-        return () => {
-            setOrderItems();
-        }
-    }, [])
-
-    const checkOut = () => {
-        let order = {
-            city,
-            country,
-            dateOrdered: Date.now(),
-            orderItems,
-            phone,
-            shippingAddress1: address,
-            shippingAddress2: address2,
-            status: "3",
-            user,
-            zip,
-        }
-
-        props.navigation.navigate("Payment", {order: order })
+  useEffect(() => {
+    setDetails(props.route.params?.details);
+    let cartItemsTemp = []
+    for (let i = 0; i < props.cartItems.length; i++) {
+      const e = props.cartItems[i];
+      let cartItem = {
+        title: e.product.route.params.item.title,
+        price: e.product.route.params.item.price,
+        quantity: e.quantity
+      }
+      cartItemsTemp.push(cartItem);
     }
+    console.log(cartItemsTemp)
+    setCartItems(cartItemsTemp);
+    cartItemsTemp = []
+  }, [props.route.params?.details]);
 
-    return (
-        <KeyboardAwareScrollView
-            viewIsInsideTabBar={true}
-            extraHeight={200}
-            enableOnAndroid={true}
-        >
-            <FormContainer title={"Shipping Address"}>
-                <Input
-                    placeholder={"Phone"}
-                    name={"phone"}
-                    value={phone}
-                    keyboardType={"numeric"}
-                    onChangeText={(text) => setPhone(text)}
-                />
-                   <Input
-                    placeholder={"Shipping Address 1"}
-                    name={"ShippingAddress1"}
-                    value={address}
-                    onChangeText={(text) => setAddress(text)}
-                />
-                   <Input
-                    placeholder={"Shipping Address 2"}
-                    name={"ShippingAddress2"}
-                    value={address2}
-                    onChangeText={(text) => setAddress2(text)}
-                />
-                   <Input
-                    placeholder={"City"}
-                    name={"city"}
-                    value={city}
-                    onChangeText={(text) => setCity(text)}
-                />
-                   <Input
-                    placeholder={"Zip Code"}
-                    name={"zip"}
-                    value={zip}
-                    keyboardType={"numeric"}
-                    onChangeText={(text) => setZip(text)}
-                />
-                <Item picker>
-                    <Picker
-                        mode="dropdown"
-                        iosIcon={<Icon name="arrow-down" color={"#007aff"} />}
-                        style={{ width: undefined }}
-                        selectedValue={country}
-                        placeholder="Select your country"
-                        placeholderStyle={{ color: '#007aff' }}
-                        placeholderIconColor="#007aff"
-                        onValueChange={(e) => setCountry(e)}
-                    >
-                        {countries.map((c) => {
-                            return <Picker.Item 
-                                    key={c.code} 
-                                    label={c.name}
-                                    value={c.name}
-                                    />
-                        })}
-                    </Picker>
-                </Item>
-                <View style={{ width: '80%', alignItems: "center" }}>
-                    <Button title="Confirm" onPress={() => checkOut()}/>
-                </View>
-            </FormContainer>
-        </KeyboardAwareScrollView>
-    )
+
+  useEffect(() => {
+    setPrice()
+    return () => {
+      setTotalPrice()
+    }
+  }, [props])
+
+  const setPrice = () => {
+    let price = 0;
+    props.cartItems.forEach(cartItem => {
+      price += parseFloat(cartItem.product.route.params.item.price) * parseInt(cartItem.quantity)
+    })
+    setTotalPrice(parseInt(price * 100))
+  }
+
+  const fetchPaymentIntentClientSecret = async () => {
+    const response = await fetch(`https://kaientai-stripe.herokuapp.com/create-payment-intent/${totalPrice}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const { clientSecret, error } = await response.json();
+    return { clientSecret, error };
+  };
+
+  const handlePayPress = async () => {
+    //1.Gather the customer's billing information (e.g., email)
+    if (!cardDetails?.complete || !email) {
+      Alert.alert("Please enter Complete card details and Email");
+      return;
+    }
+    const billingDetails = {
+      email: email,
+    };
+    //2.Fetch the intent client secret from the backend
+    try {
+      const { clientSecret, error } = await fetchPaymentIntentClientSecret();
+      //2. confirm the payment
+      if (error) {
+        console.log("Unable to process payment: ", error);
+      } else {
+        const { paymentIntent, error } = await confirmPayment(clientSecret, {
+          type: "Card",
+          billingDetails: billingDetails,
+        });
+        if (error) {
+          alert(`Payment Confirmation Error ${error.message}`);
+        } else if (paymentIntent) {
+          alert("Payment Successful");
+          var headers = {
+            "Content-Type": "application/json",
+            "Access-Control-Origin": "*"
+         }
+          console.log("Payment successful ", paymentIntent);
+          console.log(cartItems)
+          axios.post('https://kaientai-app-backend.herokuapp.com/api/v1/order', {
+            dateAndTime: GetDateAndTimeNow(),
+            statusID: 1,
+            supplierID: 1,
+            userID: null,
+            totalAmount: totalPrice,
+            contactName: details.fullName,
+            contactEmail: email,
+            contactPhone: details.phone,
+            address1: details.address1,
+            address2: details.address2,
+            city: details.city,
+            county: null,
+            country: null,
+            postcode: details.postcode,
+            extUserID: null,
+            cartProducts: cartItems,
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          props.clearCart()
+          props.navigation.navigate("Cart")
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    //3.Confirm the payment with the card details
+  };
+
+  return (
+    <View style={styles.container}>
+      <CardField
+        postalCodeEnabled={true}
+        placeholder={{
+          number: "4242 4242 4242 4242",
+        }}
+        cardStyle={styles.card}
+        style={styles.cardContainer}
+        onCardChange={cardDetails => {
+          setCardDetails(cardDetails);
+        }}
+      />
+      <Button onPress={handlePayPress} title="Pay" disabled={loading} />
+    </View>
+  );
 }
 
 const mapStateToProps = (state) => {
-    const { cartItems } = state;
-    return {
-        cartItems: cartItems,
+  const { cartItems } = state;
+  return {
+    cartItems: cartItems,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    clearCart: () => dispatch(actions.clearCart()),
     }
 }
 
-export default connect(mapStateToProps)(Checkout)
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    margin: 20,
+  },
+  input: {
+    backgroundColor: "#efefefef",
+
+    borderRadius: 8,
+    fontSize: 20,
+    height: 50,
+    padding: 10,
+  },
+  card: {
+    backgroundColor: "#efefefef",
+  },
+  cardContainer: {
+    height: 50,
+    marginVertical: 30,
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

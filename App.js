@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 // Redux
 import { Provider } from "react-redux";
 import store from "./Redux/store";
+import { StripeProvider } from '@stripe/stripe-react-native';
 
 // Context API
 // import Auth from "./Context/store/Auth";
@@ -20,7 +21,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Main />
+        <StripeProvider publishableKey="pk_test_51JGoDJGV93cbvl6oZjpA1RLnEGHSNG9JBzgjQcLjkBi16bWKnRPKsT3hjBkRfYHvpcQqCFrDedCdaCEB7hxKtBYg00Vw3m8qRb">
+          <Main />
+        </StripeProvider>
       </NavigationContainer>
     </Provider>
   );

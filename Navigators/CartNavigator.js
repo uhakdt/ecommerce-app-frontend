@@ -3,7 +3,9 @@ import { createStackNavigator } from "@react-navigation/stack"
 import { Image } from 'react-native';
 
 import Cart from '../Screens/Cart/Cart';
-// import CheckoutNavigator from './CheckoutNavigator';
+import AddAddress from '../Screens/Cart/Checkout/AddAddress';
+import Checkout from '../Screens/Cart/Checkout/Checkout';
+import PostCheckout from '../Screens/Cart/Checkout/PostCheckout';
 
 const Stack = createStackNavigator();
 
@@ -31,13 +33,69 @@ function MyStack() {
           ),
         }}
       />
-      {/* <Stack.Screen
-        name="Checkout"
-        component={CheckoutNavigator}
+      <Stack.Screen
+        name="AddAddress"
+        component={AddAddress}
         options={{
-          title: 'Checkout'
+          headerStyle: {
+            backgroundColor: "#006994",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+          cardStyle: {
+            backgroundColor: "white",
+          },
+          headerTitle: () => (
+            <Image
+              style={{height: 30, width: 100}}
+              source={{ uri: 'https://kaientai-app.s3.eu-west-2.amazonaws.com/design/logo/Logo+-+White.png' }}
+            />
+          ),
         }}
-      /> */}
+      />
+      <Stack.Screen
+        name="Checkout"
+        component={Checkout}
+        options={{
+          headerStyle: {
+            backgroundColor: "#006994",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+          cardStyle: {
+            backgroundColor: "white",
+          },
+          headerTitle: () => (
+            <Image
+              style={{height: 30, width: 100}}
+              source={{ uri: 'https://kaientai-app.s3.eu-west-2.amazonaws.com/design/logo/Logo+-+White.png' }}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="PostCheckout"
+        component={PostCheckout}
+        options={{
+          headerStyle: {
+            backgroundColor: "#006994",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+          cardStyle: {
+            backgroundColor: "white",
+          },
+          headerTitle: () => (
+            <Image
+              style={{height: 30, width: 100}}
+              source={{ uri: 'https://kaientai-app.s3.eu-west-2.amazonaws.com/design/logo/Logo+-+White.png' }}
+            />
+          ),
+        }}
+      />
     </Stack.Navigator>
   )
 }

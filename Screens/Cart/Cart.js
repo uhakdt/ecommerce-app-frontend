@@ -28,10 +28,15 @@ const Cart = (props) => {
     setTotalPrice(price)
   }
 
+  const GoToAddAddress = () => {
+    console.log(productUpdate)
+    props.navigation.navigate("AddAddress")
+  }
+
   return (
     <View style={styles.root}>
       {props.cartItems && (
-        <Pressable style={styles.continueContainer}>
+        <Pressable onPress={GoToAddAddress} style={styles.continueContainer}>
           <View style={styles.continueTextContainer}>
             <Text style={styles.continueText}>Continue</Text>
           </View>
