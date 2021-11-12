@@ -18,7 +18,7 @@ const ImageCarousel = ({ images, price, title }) => {
     <View style={styles.root}>
       <FlatList
         data={images}
-        keyExtractor={(index) => index.toString()}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
           <View style={styles.imageContainer} key={item.image}>
             <Image
@@ -44,7 +44,7 @@ const ImageCarousel = ({ images, price, title }) => {
       {/* DOTS */}
       <View style={styles.dots}>
         {images.map((image, index) => (
-          <View
+          <View key={index}
             style={[
               styles.dot,
               {
