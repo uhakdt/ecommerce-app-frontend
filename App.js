@@ -18,7 +18,7 @@ const App = () => {
     <Auth>
       <Provider store={store}>
         <NavigationContainer>
-          <StripeProvider publishableKey="pk_test_51JGoDJGV93cbvl6oZjpA1RLnEGHSNG9JBzgjQcLjkBi16bWKnRPKsT3hjBkRfYHvpcQqCFrDedCdaCEB7hxKtBYg00Vw3m8qRb">
+          <StripeProvider publishableKey="pk_live_51JGoDJGV93cbvl6oVHlocRdXMTnBxMgXlploT8m443cIr67BPRYJxzSaWMTYA9kiPe5xsz4yfR2Ph1V0dxQIw5aT00TzOT8Gs0">
             <Main />
           </StripeProvider>
         </NavigationContainer>
