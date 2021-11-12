@@ -5,7 +5,8 @@ import axios from "axios";
 import { GetDateAndTimeNow } from '../../../auxillary/DateAndTimeNow';
 import { connect } from 'react-redux';
 import * as actions from "../../../Redux/Actions/cartActions";
-import AuthGlobal from "../../../Context/store/AuthGlobal"
+import AuthGlobal from "../../../Context/store/AuthGlobal";
+import baseURL from "../../../assets/common/baseUrl";
 
 const Checkout = (props) =>  {
   const context = useContext(AuthGlobal)
@@ -88,7 +89,7 @@ const Checkout = (props) =>  {
             "Access-Control-Origin": "*"
          }
           console.log("Payment successful ", paymentIntent);
-          axios.post('https://kaientai-app-backend.herokuapp.com/api/v1/order', {
+          axios.post(`${baseURL}order`, {
             dateAndTime: GetDateAndTimeNow(),
             statusID: 1,
             supplierID: 1,
