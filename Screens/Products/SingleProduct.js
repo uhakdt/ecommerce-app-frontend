@@ -16,8 +16,7 @@ const SingleProduct = (props) => {
       <View style={styles.addToBasketContainer}>
         <Pressable 
           onPress={() => { props.addItemToCart(props) }} 
-          style={styles.addToBasketButton}
-        >
+          style={styles.addToBasketButton}>
           <Text style={styles.addToBasketButtonText}>Add to Basket</Text>
         </Pressable>
       </View>
@@ -25,23 +24,10 @@ const SingleProduct = (props) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageCarousel images={item.imagesUrl} price={item.price} title={item.title} />
 
-        {/* Quantity Selector */}
-        {/* <View style={styles.quantitySelectorContainer}>
-          <Pressable style={styles.minusPlusButton}>
-            <Text style={styles.minusPlusButtonText}>-</Text>
-          </Pressable>
-
-          <Text style={styles.quantity}>{item.quantity}</Text>
-
-          <Pressable style={styles.minusPlusButton}>
-            <Text style={styles.minusPlusButtonText}>+</Text>
-          </Pressable>
-        </View> */}
-
         {/* Details */}
         <View style={styles.detailsContainer}>
           {itemDescriptions.map(desc => (
-            <View>
+            <View key={desc}>
               <Text>
                 {desc}
               </Text>
