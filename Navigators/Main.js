@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
 import { Ionicons } from "react-native-vector-icons";
-import { FontAwesome } from "react-native-vector-icons";
 
 // Stacks
 import HomeNavigator from "./HomeNavigator";
@@ -14,8 +13,6 @@ import CartIcon from "../Shared/CartIcon";
 const Tab = createBottomTabNavigator();
 
 const Main = () => {
-
-  // const context = useContext(AuthGlobal)
 
   return (
     <Tab.Navigator

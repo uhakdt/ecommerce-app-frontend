@@ -1,4 +1,6 @@
+import 'react-native-gesture-handler';
 import React from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -16,6 +18,7 @@ import Main from "./Navigators/Main";
 const App = () => {
   return (
     <Auth>
+      <StatusBar style="light" />
       <Provider store={store}>
         <NavigationContainer>
           <StripeProvider publishableKey="pk_live_51JGoDJGV93cbvl6oVHlocRdXMTnBxMgXlploT8m443cIr67BPRYJxzSaWMTYA9kiPe5xsz4yfR2Ph1V0dxQIw5aT00TzOT8Gs0">
@@ -24,7 +27,7 @@ const App = () => {
         </NavigationContainer>
       </Provider>
     </Auth>
-  );
+  )
 }
 
 export default App;

@@ -38,7 +38,7 @@ const Cart = (props) => {
       {props.cartItems && (
         <Pressable onPress={GoToAddAddress} style={styles.continueContainer}>
           <View style={styles.continueTextContainer}>
-            <Text style={styles.continueText}>Continue</Text>
+            <Text style={styles.continueText}>Continue to Checkout</Text>
           </View>
           <View style={styles.continuePriceContainer}>
             {totalPrice > 0 ? (<Text style={styles.continuePrice}>£{totalPrice.toFixed(2)}</Text>) : (<Text></Text>)}
