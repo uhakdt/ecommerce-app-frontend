@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Text, TextInput, View, StyleSheet, Pressable } from 'react-native';
+import { Text, TextInput, View, StyleSheet, Pressable, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import axios from 'axios';
+import baseURL from '../../../assets/common/baseUrl';
 
 const AddAddress = (props) => {
   const [fullName, setFullName] = useState('');
@@ -12,20 +14,39 @@ const AddAddress = (props) => {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [deliveryInstructions, setDeliveryInstructions] = useState('');
+  const [tempNum, setTempNum] = useState(1);
 
   const checkout = () => {
-    props.navigation.navigate("Checkout", {
-      details: {
-        fullName: fullName,
-        address1: address1,
-        address2: address2,
-        city: city,
-        postcode: postcode,
-        phone: phone,
-        email: email,
-        deliveryInstructions: deliveryInstructions
+    axios.post(`${baseURL}postcode/check`, {
+      supplierID: 1,
+      code: postcode
+    })
+    .then(function (response) {
+      if(response.data.local === "yes") {
+        setTempNum(2)
+      } else {
+        setTempNum(3)
       }
     })
+    .catch(function (error) {
+      console.log(error);
+    });
+    if(tempNum === 2){
+      props.navigation.navigate("Checkout", {
+        details: {
+          fullName: fullName,
+          address1: address1,
+          address2: address2,
+          city: city,
+          postcode: postcode,
+          phone: phone,
+          email: email,
+          deliveryInstructions: deliveryInstructions
+        }
+      })
+    } else {
+      alert("We currently do not cover your area.")
+    }
   }
 
   return(
@@ -189,7 +210,7 @@ const styles = StyleSheet.create({
 
   // BUTTON
   goToCheckout: {
-    backgroundColor: '#98FFC8',
+    backgroundColor: '#172A55',
     height: 45,
     marginBottom: 20,
     justifyContent: 'center',
@@ -200,6 +221,7 @@ const styles = StyleSheet.create({
   },
   goToCheckoutText: {
       fontSize: 18,
+      color: 'white'
   },
 })
 

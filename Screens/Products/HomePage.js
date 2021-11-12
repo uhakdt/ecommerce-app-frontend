@@ -3,12 +3,12 @@ import { View } from 'react-native';
 
 // Components
 import HomeCategoriesList from './HomeCategoriesList';
-import HomeBanner from './HomeBanner';
+import CheckPostcode from './CheckPostcode';
 
 const HomePage = () => {
   return(
     <View>
-      <HomeBanner />
+      <CheckPostcode />
       <HomeCategoriesList />
     </View>
   )
