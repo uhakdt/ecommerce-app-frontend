@@ -1,5 +1,5 @@
 import React, { useContext, useState, useCallback, useEffect } from 'react';
-import { View, Text, ScrollView, Button, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, Button, StyleSheet, Alert, Linking } from 'react-native';
 import { useFocusEffect } from "@react-navigation/native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -18,6 +18,25 @@ const UserProfile = (props) => {
   const [userProfile, setUserProfile] = useState()
   const [orders, setOrders] = useState()
   let isAuthenticated = context.stateUser.isAuthenticated === false || context.stateUser.isAuthenticated === null
+
+  const privacyPolicyURL = "https://www.kaientai.co.uk/privacy";
+
+  const OpenURLButton = ({ url, children }) => {
+    const handlePress = useCallback(async () => {
+      // Checking if the link is supported for links with custom URL scheme.
+      const supported = await Linking.canOpenURL(url);
+
+      if (supported) {
+        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+        // by some browser in the mobile
+        await Linking.openURL(url);
+      } else {
+        Alert.alert(`Don't know how to open this URL: ${url}`);
+      }
+    }, [url]);
+
+    return <Button title={children} onPress={handlePress} />;
+  };
 
   useEffect(() => {
     props.navigation.addListener("beforeRemove", (e) => {
@@ -115,12 +134,14 @@ const UserProfile = (props) => {
             })}
           </View>
         </View>
-        {/* <View style={{ marginTop: 40 }}>
-          <Button title={"Sign Out"} onPress={() => [
-            // AsyncStorage.removeItem("jwt"),
-            logoutUser(context.dispatch)
-          ]} />
-        </View> */}
+        <View style={styles.contactDetailsContainer}>
+          <Text style={styles.contactDetailsText}>You can contact us on:</Text>
+          <Text style={styles.contactDetailsText}>07830514629</Text>
+          <Text style={styles.contactDetailsText}>bauan@kaientai.co.uk</Text>
+        </View>
+        <View>
+          <OpenURLButton url={privacyPolicyURL}>Go to our Privacy Policy</OpenURLButton>
+        </View>
       </ScrollView>
     </View>
   )
@@ -284,6 +305,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: window.width,
     paddingVertical: 5,
+  },
+
+  // Contact Details
+  contactDetailsContainer: {
+    marginTop: 50,
+    alignItems: 'center'
+  },
+  contactDetailsText: {
+    fontSize: 16,
+    paddingVertical: 3,
   },
 })
 
