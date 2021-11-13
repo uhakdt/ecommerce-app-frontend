@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "kaientai-app-frontend",
+    "name": "Kaientai",
     "slug": "kaientai-app-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,7 +20,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.x.kaientaiapp",
       "infoPlist": {
-        "NSCameraUsageDescription": "I do not use the Camera API actually. I simply save data from users - such as email, password, address and order details.",
+        "NSCameraUsageDescription": "I do not use the Camera API actually. I simply save data from users - such as email, password, address and order details."
       }
     },
     "android": {
