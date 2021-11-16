@@ -136,7 +136,6 @@ const UserProfile = (props) => {
         </View>
         <View style={styles.contactDetailsContainer}>
           <Text style={styles.contactDetailsText}>You can contact us on:</Text>
-          <Text style={styles.contactDetailsText}>07830514629</Text>
           <Text style={styles.contactDetailsText}>bauan@kaientai.co.uk</Text>
         </View>
         <View>

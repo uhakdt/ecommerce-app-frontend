@@ -12,33 +12,40 @@ const Register = (props) => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const register = () => {
     if (email === "" || name === "" || phone === "" || password === "") {
-      setError("Please fill in the form correctly");
+      alert("Please fill in all fields.");
+    } else if(!phone.match(/^(?:0|\+?44|)(?:\d\s?){9,10}$/)){
+      alert("Please add a correct phone number.");
+    } else if (!email.match(/^\S+@\S+$/)) {
+      alert("Please add a correct email address.")
+    } else if(!password.match(/^.{6}$/)) {
+      alert ("Your Password has to be at least 6 characters long")
+    } else {
+      axios.post(`${baseURL}user/register`, {
+        name: name,
+        email: email,
+        password: password,
+        phone: phone,
+        isAdmin: true,
+      })
+      .then(function (res) {
+        if (res.data.status === "OK") {
+          alert("Registration Successful!")
+          setTimeout(() => {
+            props.navigation.navigate("Login");
+          }, 500);
+        } else {
+          alert("User already exists - please enter a different email.")
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        logoutUser(dispatch)
+      });
     }
-    axios.post(`${baseURL}user/register`, {
-      name: name,
-      email: email,
-      password: password,
-      phone: phone,
-      isAdmin: true,
-    })
-    .then(function (res) {
-      if (res.data.status === "OK") {
-        alert("Registration Successful!")
-        setTimeout(() => {
-          props.navigation.navigate("Login");
-        }, 500);
-      } else {
-        alert("User already exists - please enter a different email.")
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-      logoutUser(dispatch)
-    });
+      
   };
 
   return (
@@ -91,7 +98,6 @@ const Register = (props) => {
         />
       </View>
       <View style={styles.buttonGroup}>
-        {error ? <Error message={error} /> : null}
         <Pressable onPress={() => register()} style={styles.registerCotnainer}>
           <View style={styles.registerTextContainer}>
             <Text style={styles.registerText}>Register</Text>

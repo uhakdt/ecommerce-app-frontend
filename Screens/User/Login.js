@@ -1,6 +1,5 @@
 import React, { useEffect, useContext, useState, useCallback } from "react";
 import { View, Text, StyleSheet, Button, TextInput, Pressable, Dimensions, Alert, Linking } from "react-native";
-import Error from "../../Shared/Error";
 
 // Context
 import AuthGlobal from "../../Context/store/AuthGlobal";
@@ -13,7 +12,6 @@ const Login = (props) => {
   const context = useContext(AuthGlobal);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const privacyPolicyURL = "https://www.kaientai.co.uk/privacy";
 
@@ -49,7 +47,7 @@ const Login = (props) => {
     };
 
     if (email === "" || password === "") {
-      setError("Please fill in your credentials");
+      alert("Please fill in your credentials");
     } else {
       loginUser(user, context.dispatch);
     }
@@ -80,7 +78,6 @@ const Login = (props) => {
         />
       </View>
       <View style={styles.buttonGroup}>
-        {error ? <Error message={error} /> : null}
         <Pressable onPress={() => handleSubmit()} style={styles.loginCotnainer}>
           <View style={styles.loginTextContainer}>
             <Text style={styles.loginText}>Login</Text>
@@ -97,7 +94,6 @@ const Login = (props) => {
       </View>
       <View style={styles.contactDetailsContainer}>
         <Text style={styles.contactDetailsText}>You can contact us on:</Text>
-        <Text style={styles.contactDetailsText}>07830514629</Text>
         <Text style={styles.contactDetailsText}>bauan@kaientai.co.uk</Text>
       </View>
       <View>
